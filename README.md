@@ -80,3 +80,58 @@
 public @interface LogExecutionTime {
 }
 ```
+#### class: LogAspect
+```java
+//Component에서 Bean으로 등록
+@Component
+@Aspect
+public class LogAspect {
+
+    Logger logger = LoggerFactory.getLogger(LogAspect.class);
+
+    //이 애노테이션 주변으로 할일 정의
+    //메서드가 호출되기 전, 후, 오류가 났을 때 다 사용할 수 있는게 Around
+    //특정 표현식을 쓰면 @annotation 을 안붙이고도 정의할 수 있음
+    @Around("@annotation(LogExecutionTime)")
+    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        //스프링이 제공하는 StopWatch
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        Object ret = joinPoint.proceed();
+
+        stopWatch.stop();
+        logger.info(stopWatch.prettyPrint());
+
+        return ret;
+    }
+}
+```
+
+## PSA(Portable Service Abstration)
+- PSA
+  -  잘 만든 인터페이스  
+  -  스프링은 거의 모든 인터페이스가 PSA임  
+  -  추상화 되어있는 Abstraction 계층  
+  -  조금 더 유연하게 코드를 작성할 수있도록 좋은 인터페이스를 만들어서 제공  
+  -  PSA 인터페이스 대부분의 코드는 추상화 되어있으므로 구현체가 바뀌더라도 Aspect 코드가 바뀌지 않음  
+
+### 스프링 트랜잭션(PlatformTransactionManager)
+- 기술에 독립적인 `PlatformTransactionManager`인터페이스로 구현을 해놓음  
+- `@Transactional` Aspect 안에서 `PlatformTransactionManager`인터페이스를 가져다가 쓰게됨  
+- 구현체들이 바뀌더라도 `@Transactional` Aspect의 코드는 바뀌지 않음  
+- 구현체
+  - JpaTransactionManager
+  - DatasourceTransactionManager
+  - HibernateTransactionManager
+
+### 스프링 캐시(CacheManager)
+- 스프링 캐시의 구현체가 바뀌더라도 `@Cacheable`, `@CacheEvict` Aspect 코드는 바뀌지 않음  
+- 구현체
+  - JCacheManager
+  - ConcurrentMapCacheManager
+  - EhCacheCacheManager
+
+### 스프링 웹 MVC(@Controller와 @RequestMapping)
+- @Controller과 @RequestMapping 애노테이션만 보고 서블릿을 쓰는지 리액티브를 쓰는지 의존성을 확인해보기 전에 알 수 없음  
+- 기술에 독립적으로 만들어진 추상화 구현체  
