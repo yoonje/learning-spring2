@@ -34,7 +34,7 @@
   - `@MockBean` 애노테이션으로 가짜 OwnerRepository 객체를 주입 받아서 사용할 수 있음  
 
 
-## IOC(Inversion Of Container) 컨테이너
+### IOC(Inversion Of Container) 컨테이너
 - IOC 컨테이너
     - 직접쓸일이 거의 없음  
     - BeanFactory
@@ -49,10 +49,10 @@
     ApplicationContext applicationContext
     ```
 
-## 빈(Bean)
+### 빈(Bean)
 - 빈: 스프링 IoC 컨테이너가 관리하는 객체  
 
-## AOP(Abstract Oriented Programming)
+### AOP(Abstract Oriented Programming)
 - AOP: 흩어진 코드를 한 곳으로 모으는 코딩 기법  
   - 스프링에서는 Proxy 패턴을 사용하여 AOP를 처리함  
 
@@ -78,9 +78,10 @@
 //애노테이션을 사용한 코드를 언제까지 유지할건지 런타임때까지 유지
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LogExecutionTime {
+  
 }
 ```
-#### class: LogAspect
+- class: LogAspect
 ```java
 //Component에서 Bean으로 등록
 @Component
@@ -108,7 +109,7 @@ public class LogAspect {
 }
 ```
 
-## PSA(Portable Service Abstration)
+### PSA(Portable Service Abstration)
 - PSA
   -  잘 만든 인터페이스  
   -  스프링은 거의 모든 인터페이스가 PSA임  
