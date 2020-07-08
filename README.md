@@ -22,11 +22,9 @@
       }
     }
     ```
-    - 아래의 코드처럼 테스트 코드를 작성하기가 쉬워짐
-    - OwnerController 객체를 만들려면 OwnerRepository 객체가 만들어져서 생성자에서 주입이 되어야만함 
+    - OwnerController 객체를 만들려면 OwnerRepository 객체가 먼저 만들어져서 생성자에서 주입이 되어야만함 
     ```java
     class OwnerControllerTest {
-      @Test
       public void create() {
         OwnerRepository repo = new OwnerRepository();
         OwnerController controller = new OwnerController(repo);
