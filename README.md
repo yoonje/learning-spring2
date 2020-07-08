@@ -9,9 +9,10 @@
       private OwnerRepository repository = new OwnerRepossitory();
     }
     ```  
-    - 제어의 역전은 아래와 같이 제어권이 자기 자신에 있지 않고 외부에 있는 것을 말함  
-    - 실제 의존성 주입은 스프링(ApplicationContext)가 해줌  
-    - 테스트 코드를 작성하기가 훨씬 쉬움  
+    - 제어의 역전은 아래와 같이 `의존성 제어권이 자기 자신에 있지 않고 외부에 있는 것`을 말함
+    - 즉, 의존성을 만드는 일을 외부에 맡기는 것
+    - 실제 의존성 주입은 스프링(ApplicationContext)가 해줌
+    - 아래 코드는 생성자에서 의존성을 주입함
     ```java
     class OwnerController {
       private OwnerRepository repo;
@@ -20,7 +21,10 @@
         this.repo = repo;
       }
     }
-
+    ```
+    - 아래의 코드처럼 테스트 코드를 작성하기가 쉬워짐
+    - OwnerController 객체를 만들려면 OwnerRepository 객체가 만들어져서 생성자에서 주입이 되어야만함 
+    ```java
     class OwnerControllerTest {
       @Test
       public void create() {
@@ -29,33 +33,31 @@
       }
     }
     ```
-
-
-### @MockBean
-- `@MockBean`
-  - 애노테이션으로 가짜 OwnerRepository 객체를 주입 받아서 사용할 수 있음
-
+ 
 
 ### IOC(Inversion Of Container) 컨테이너
 - IOC 컨테이너
-  - 직접 쓸 일이 거의 없음
-  - Bean을 만들고 Bean 사이의 의존성을 엮어주고 만들어진 Bean들을 제공해주는 일을 함  
-  - BeanFactory
-  - ApplicationContext: 자기가 컨테이너 내부에 만든객체들 Bean들의 의존성을 관리해주는 역할을 하는 BeanFactory의 서브 클래스로 우리가 사용하는 IOC 컨테이너
+  - `IOC 컨테이너(스프링 컨테이너)`: 객체가 스프링이 관리하는 객체인 Bean에 등록이 되면 Bean을 만들고 Bean 사이의 의존성을 엮어주고 만들어진 Bean들을 제공해주는 일을 함
+  - 의존성을 관리해주는 일이라는 것은 애노테이션이나 특정한 생성자를 보고서 필요한 의존성을 자동으로 주입해주는 것을 의미
+  - IOC 컨테이너는 BeanFactory 클래스나 ApplicationContext 클래스로 직접 쓸 일이 거의 없음
+  - `ApplicationContext`: 자기가 컨테이너 내부에 만든객체들 Bean들의 의존성을 관리해주는 역할을 하는 BeanFactory의 서브 클래스로 우리가 사용하는 IOC 컨테이너
+  - IOC 컨테이너에 등록한 빈 객체들을 사용하면 멀티스레딩 상황에서도 안전한 싱글톤 스코프 객체를 사용할 수 있음
 
 
 ### 빈(Bean)
-- 빈(Bean): 스프링 IoC 컨테이너가 관리하는 객체로 ApplicationContext를 통해서 객체를 받와야만 Bean
-- 빈으로 등록하는 방법
-  - `Component Scanning`을 아용: @Repository, @Service, @Controller, @Configuration 등등을 Annotation으로 하여 등록 
-  - `Bean`으로 직접 등록: Java 설정 파일을 통해서 그 안에 `@Bean`이라는 Annotation으로 등록
-- 빈을 얻는 방법
-  - `@Autowired`을 사용하여 의존성 주입하는 방법으로 얻기
+- 빈(Bean): 스프링 IoC 컨테이너가 관리하는 객체로 ApplicationContext를 통해서 객체를 받와야만 Bean임
+- IOC 컨테이너에 빈으로 등록하는 방법
+  - `Component Scanning`을 이용: @Component이라는 애노테이션을 활용한 @Repository, @Service, @Controller, @Configuration 등등의 Annotation으로 활용하여 등록(대부분 이 방법 사용)
+  - `Bean`으로 직접 등록: @Configuation Annotation이 들어가 있는 자바 설정 파일에서 `@Bean`이라는 Annotation으로 등록
+  - `ApplicationContext.xml` 파일에 직접 등록: <bean></bean>안에 정보를 넣어 등록
+  - 특정한 인터페이스를 상속 받고 있는 클래스를 상속하여 등록
+- 등록된 빈을 얻는 방법
+  - `@Autowired`을 사용하여 의존성 주입을 하는 방법으로 얻기(대부분 이 방법 사용)
   - `ApplicationContext`을 활용해서 얻기
 
 
 ### 의존성 주입
-- 의존성: 현재 객체가 다른 객체와 상호작용(참조)하고 있다면 현재 객체는 다른 객체에 의존성을 가진다고 함
+- 의존성: `현재 객체가 다른 객체와 상호작용(참조)하고 있다면` 현재 객체는 다른 객체에 의존성을 가진다고 함
 - 의존성을 사용자가 제어할 경우 모듈이 바뀌면 의존한 다른 모듈을 변경하는 문제를 일일히 처리해야함
 - 의존성 주입: 프레임워크에 의해 객체의 의존성을 주입하여 동적으로 주입하여 객체 간의 결합을 줄임
   - 생성자, 세터, 필드에 `@Autowired`를 이용해 빈을 꺼내와서 의존성을 주입해줄 수 있음(주로 생성자 사용)
