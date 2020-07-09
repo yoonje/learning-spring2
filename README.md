@@ -1,6 +1,8 @@
 # Spring Framework 정리 자료
 스프링 petclinic 샘플 프로젝트와 인프런 백기선 강사님 예제로 배우는 스프링 입문(개정판) 정리 문서
 
+## 3 Triangle - IOC/DI
+
 #### IOC(Inversion Of Control)
 - 제어의 역전    
     - 보통 아래와 같이 자신의 제어권을 자기 자신이 가짐  
@@ -61,7 +63,7 @@
 - 생성자, 세터, 필드에 `@Autowired`를 이용해 빈을 꺼내와서 의존성을 주입해줄 수 있음(주로 생성자 사용)
 
 
-## 3 Triangle - IOC/DI
+## 3 Triangle - AOP
 
 #### AOP(Abspect Oriented Programming)
 - AOP: 프로젝트 구조를 바라 보는 관점을 바꿔서 공통된 기능을 재사용하여 흩어진 코드를 한 곳으로 모으는 코딩 기법  
