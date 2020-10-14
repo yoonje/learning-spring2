@@ -60,6 +60,7 @@
 - 의존성 주입: 프레임워크에 의해 객체의 의존성을 주입하여 동적으로 주입하여 객체 간의 결합을 줄임
 - 생성자, 세터, 필드에 `@Autowired`를 이용해 빈을 꺼내와서 의존성을 주입해줄 수 있음(주로 생성자 or 필드 사용)
 - 생성자에서 `@Autowired`를 사용하는 경우, 스프링 4.3부터 클래스의 생성자가 하나 뿐이고 주입받는 래퍼런스 변수들이 빈으로 등록 되어 있다면 `@Autowired`를 생략해도 레퍼런스 변수들에 대해 자동으로 빈이 주입이 됨
+- 생성자를 통해서 의존성을 주입 받는 경우 래퍼런스 변수가 모두 충족되어야함을 강제할 수 있어 권장됨
 
 
 ## 3 Triangle - AOP
@@ -67,22 +68,23 @@
 - AOP: 프로젝트 구조를 바라 보는 관점을 바꿔서 공통된 기능을 재사용하여 흩어진 코드를 한 곳으로 모으는 코딩 기법  
   - 기존의 코드를 수정하지 않고 새로운 코드를 넣기 때문에 여러 부분을 한번에 추가 및 수정할 때 매우 유용한 기능
   - 스프링에서는 `Proxy 패턴`을 사용하여 AOP를 구현함
-- Annotation: 그 자체는 아무 기능이 없는 주석과 같은 역할임  
-  - Annotation을 동작시키 위해 `Aspect` 클래스로 기능을 구현해야함  
-  - 이후의 애노테이션을 읽어서 처리하는 코드를 만들어서 기능을 추가
+  - 스프링에서 여러 방법으로 AOP를 사용할 수 있는데 대표적인 방법이 Annotaion임
+- Annotation: 그 자체는 아무 기능이 없는 주석과 같은 역할
+  - Annotation을 스프링 AOP로 동작시키 위해 `Aspect` 클래스로 기능을 구현해야함  
+  - 이후의 애노테이션을 읽어서 처리하는 코드를 만들어서 AOP로 기능을 추가
 - AOP를 구현을 위한 Java의 Annotation
   - `@Target(ElementType.METHOD)`
     - 메서드에 붙일 것이기 때문에 METHOD로 지정
   - `@Retention(RetentionPolicy.RUNTIME)`
-    - 애노테이션을 사용한 코드를 언제까지 유지할건지 런타임때까지 유지  
+    - 애노테이션을 사용한 코드를 언제까지 유지할건지 런타임 때까지 유지하게 지정  
 - AOP를 구현을 위한 Java의 Annotation를 처리할 Aspect 클래스
   - `@Component`
     - 빈으로 등록하기 위한 애노테이션
   - `@Aspect`
     - Aspect라는 것을 알리기 위한 애노테이션
   - `@Around("@annotation(LogExecutionTime)")`
-    - 메서드가 호출되기 전과 후에 오류가 났을 때 다 사용할 수 있는게 Around
-    - joinPoint라는 인터페이스 타입으로 타겟 메소드가 Around 안에 들어옴
+    - LogExecutionTime 어노테이션 주변에 적용시키는 설정
+    - @Around 사용 시에 `joinPoint`라는 인터페이스 타입으로 타겟 메소드가 Around 안에 들어옴
   - annotation: LogExecutionTime
     ```java
     //메서드에 붙이는 애노테이션이기 때문에 METHOD로 지정
