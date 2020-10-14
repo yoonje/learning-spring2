@@ -84,6 +84,7 @@
     - Aspect라는 것을 알리기 위한 애노테이션
   - `@Around("@annotation(LogExecutionTime)")`
     - LogExecutionTime 어노테이션 주변에 적용시키는 설정
+    - LogExecutionTime 어노테이션이 붙어 있는 메소드들은 모두 이 Aspect 코드를 실 행하게 됨
     - @Around 사용 시에 `joinPoint`라는 인터페이스 타입으로 타겟 메소드가 Around 안에 들어옴
   - annotation: LogExecutionTime
     ```java
