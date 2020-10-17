@@ -127,15 +127,17 @@
 
 ## 3 Triangle - PSA
 #### PSA(Portable Service Abstration)
-- Service Abstraction: 추상화 계층을 사용해서 어떤 기술을 내부에 숨기고 개발자에게 편의성을 제공해주는 것
-- PSA(Portable Service Abstraction): Service Abstraction으로 제공되는 기술을 다른 기술 스택으로 간편하게 바꿀 수 있게 추상화하여 일관성있게 제어하는 기능이 확장성을 갖고 있는 것
+- Service Abstraction: `추상화 계층`을 사용해서 어떤 기술을 내부에 숨기고 개발자에게 편의성을 제공해주는 인터페이슬 렞공하는 기술
+- PSA(Portable Service Abstraction): Service Abstraction으로 제공되는 기술을 `다른 기술 스택으로 간편하게 바꿀 수 있게 추상화하여` 일관성있게 제어하는 기능이 확장성을 갖고 있는 것
   - 스프링은 거의 모든 인터페이스가 PSA
   - 어떤 기술을 내부에 숨기고 개발자에게 편의성을 제공해주는 것
-  - 조금 더 유연하게 코드를 작성할 수 있도록 좋은 인터페이스를 만들어서 제공  
-  - PSA 인터페이스 대부분의 코드는 추상화 되어 있으므로 구현체가 바뀌더라도 내부 코드가 바뀌지 않음
+  - 조금 더 유연하게 코드를 작성할 수 있도록 좋은 인터페이스를 만들어서 제공
+  - PSA 인터페이스 대부분의 코드는 추상화되어 있으므로 구현체가 바뀌더라도 코드가 바뀌지 않음
 
 #### 스프링 웹 MVC(@Controller와 @RequestMapping)
 - PSA 중 하나로 MVC에 해당하는 애노테이션이 붙여진 메소드들에 대해서 구현체에 상관없이 일관성 있는 처리가 됨
+- 서블릿을 쓰거나 리액트리브를 쓰거나 해도 추상화 계층 위의 코드가 거의 변경이 되지 않게 MVC의 추상화 계층이 존재
+- 톰캣이 아닌 네티 기반으로 돌아가는 것으로 해도 추상화 계층 위의 코드가 거의 변경이 되지 않게 MVC의 추상화 계층이 존재
 - C
   - `@Controller` 애노테이션을 사용하면 요청을 처리하는 컨트롤러 클래스로 정의
   - `@GetMapping`, `@PostMapping`, `@PutMapping`, 등등을 통해서 URL과 호출 메소드를 연동
@@ -158,6 +160,7 @@
   - JpaTransactionManager
   - DatasourceTransactionManager
   - HibernateTransactionManager
+
 
 #### 스프링 캐시(CacheManager)
 - PSA 중 하나로 스프링 캐시의 구현체가 바뀌더라도 `@Cacheable`, `@CacheEvict` Aspect 코드는 바뀌지 않음
