@@ -1,6 +1,21 @@
 # Spring Framework 정리 자료
 스프링 petclinic 샘플 프로젝트와 예제로 배우는 스프링 입문(개정판) 정리 문서
 
+## Requirements
+- [JDK 1.8+](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [maven](https://maven.apache.org)
+- [H2](https://www.h2database.com/html/main.html)
+
+## Build
+```
+$ ./mvnw package
+```
+
+## Run
+```
+$ java -jar target/*.jar
+```
+
 ## 3 Triangle - IOC/DI
 #### IOC(Inversion Of Control)
 - 제어의 역전    
